@@ -3,7 +3,7 @@ import numpy as np
 import skimage as ski
 from scipy.ndimage import convolve
 from os.path import splitext
-
+import os
 
 def mascara_nitidez_high_boost(img_atalho: str, m: int, k: float):
     '''Recebe uma imagem em tons de cinza e dois parâmetros m e k e devolve uma outra imagem em
@@ -35,9 +35,12 @@ def mascara_nitidez_high_boost(img_atalho: str, m: int, k: float):
     # Normaliza a máscara apenas para fins de visualização (pq ela possui valores negativos)
     mascara_normalizada = normalizar_para_visualizacao(mascara)
 
+    os.makedirs("figure", exist_ok=True)
+
     nome_base, _ = splitext(img_atalho)
-    ski.io.imsave(f"{nome_base}_m={m}_k={k}_mascara.jpg", mascara_normalizada)
-    ski.io.imsave(f"{nome_base}_m={m}_k={k}_agucada.jpg", imagem_agucada)
+    
+    ski.io.imsave(f"figure/{nome_base}_m={m}_k={k}_mascara.jpg", mascara_normalizada)
+    ski.io.imsave(f"figure/{nome_base}_m={m}_k={k}_agucada.jpg", imagem_agucada)
 
 
 def normalizar_para_visualizacao(matriz: np.ndarray) -> np.ndarray:
